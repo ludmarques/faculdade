@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Temperatura</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>🌡️ Calculadora de Temperatura</h1>
+        
+        <div class="card">
+            <h2>Digite a temperatura</h2>
+            
+            <div class="input-group">
+                <input type="number" id="valor" placeholder="Digite o valor" step="any">
+                <select id="unidadeOrigem">
+                    <option value="celsius">°C (Celsius)</option>
+                    <option value="fahrenheit">°F (Fahrenheit)</option>
+                    <option value="kelvin">K (Kelvin)</option>
+                </select>
+            </div>
+            
+            <div class="arrow">⬇️ Converter para ⬇️</div>
+            
+            <div class="input-group">
+                <select id="unidadeDestino">
+                    <option value="celsius">°C (Celsius)</option>
+                    <option value="fahrenheit">°F (Fahrenheit)</option>
+                    <option value="kelvin">K (Kelvin)</option>
+                </select>
+            </div>
+            
+            <button onclick="converter()">🔄 Converter</button>
+            
+            <div id="resultado" class="resultado">
+                Aguardando conversão...
+            </div>
+        </div>
+
+        <!-- Tabela de referência -->
+        <div class="card referencias">
+            <h2>📊 Pontos de Referência</h2>
+            <table>
+                <tr>
+                    <th>Evento</th>
+                    <th>Celsius</th>
+                    <th>Fahrenheit</th>
+                    <th>Kelvin</th>
+                </tr>
+                <tr>
+                    <td>Água ferve</td>
+                    <td>100°C</td>
+                    <td>212°F</td>
+                    <td>373.15K</td>
+                </tr>
+                <tr>
+                    <td>Água congela</td>
+                    <td>0°C</td>
+                    <td>32°F</td>
+                    <td>273.15K</td>
+                </tr>
+                <tr>
+                    <td>Zero absoluto</td>
+                    <td>-273.15°C</td>
+                    <td>-459.67°F</td>
+                    <td>0K</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
