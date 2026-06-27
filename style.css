@@ -1,29 +1,233 @@
 /* ============================================
-   NOVOS ESTILOS PARA O CLIMA
+   CSS - TEMA VERDE E ROXO COM FIGURAS DE FUNDO
+   ============================================ */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+    position: relative;
+    overflow-x: hidden;
+}
+
+/* ============================================
+   FIGURAS GEOMÉTRICAS DE FUNDO
+   ============================================ */
+
+/* Círculo roxo */
+body::before {
+    content: '';
+    position: fixed;
+    top: -150px;
+    right: -150px;
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, rgba(155, 89, 182, 0.3) 0%, transparent 70%);
+    border-radius: 50%;
+    z-index: 0;
+    animation: flutuar 8s ease-in-out infinite;
+}
+
+/* Círculo verde */
+body::after {
+    content: '';
+    position: fixed;
+    bottom: -100px;
+    left: -100px;
+    width: 350px;
+    height: 350px;
+    background: radial-gradient(circle, rgba(46, 204, 113, 0.25) 0%, transparent 70%);
+    border-radius: 50%;
+    z-index: 0;
+    animation: flutuar2 10s ease-in-out infinite;
+}
+
+/* Quadrado roxo */
+.quadrado {
+    position: fixed;
+    top: 20%;
+    left: 10%;
+    width: 60px;
+    height: 60px;
+    background: rgba(155, 89, 182, 0.15);
+    transform: rotate(45deg);
+    z-index: 0;
+    animation: girar 15s linear infinite;
+}
+
+/* Triângulo verde */
+.triangulo {
+    position: fixed;
+    bottom: 20%;
+    right: 10%;
+    width: 0;
+    height: 0;
+    border-left: 40px solid transparent;
+    border-right: 40px solid transparent;
+    border-bottom: 70px solid rgba(46, 204, 113, 0.15);
+    z-index: 0;
+    animation: flutuar3 12s ease-in-out infinite;
+}
+
+/* Círculo pequeno roxo */
+.circulo-pequeno {
+    position: fixed;
+    top: 60%;
+    right: 5%;
+    width: 30px;
+    height: 30px;
+    background: rgba(155, 89, 182, 0.2);
+    border-radius: 50%;
+    z-index: 0;
+    animation: flutuar 6s ease-in-out infinite;
+}
+
+/* Quadrado pequeno verde */
+.quadrado-pequeno {
+    position: fixed;
+    bottom: 30%;
+    left: 5%;
+    width: 40px;
+    height: 40px;
+    background: rgba(46, 204, 113, 0.12);
+    transform: rotate(20deg);
+    z-index: 0;
+    animation: girar 20s linear infinite;
+}
+
+/* ============================================
+   ANIMAÇÕES DAS FIGURAS
+   ============================================ */
+
+@keyframes flutuar {
+    0%, 100% { transform: translateY(0px) scale(1); }
+    50% { transform: translateY(-30px) scale(1.05); }
+}
+
+@keyframes flutuar2 {
+    0%, 100% { transform: translateY(0px) scale(1); }
+    50% { transform: translateY(30px) scale(1.1); }
+}
+
+@keyframes flutuar3 {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    50% { transform: translateY(-20px) rotate(10deg); }
+}
+
+@keyframes girar {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* ============================================
+   CONTAINER PRINCIPAL
+   ============================================ */
+
+.container {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 30px;
+    padding: 35px 30px;
+    max-width: 550px;
+    width: 100%;
+    box-shadow: 
+        0 20px 60px rgba(0, 0, 0, 0.4),
+        0 0 40px rgba(155, 89, 182, 0.1);
+    backdrop-filter: blur(10px);
+    position: relative;
+    z-index: 1;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+h1 {
+    text-align: center;
+    color: #2d3436;
+    margin-bottom: 25px;
+    font-size: 1.8em;
+    font-weight: 800;
+    background: linear-gradient(135deg, #6c5ce7 0%, #00b894 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+h2 {
+    color: #2d3436;
+    font-size: 1em;
+    margin-bottom: 12px;
+}
+
+/* ============================================
+   CARDS
+   ============================================ */
+
+.card {
+    background: #f8f9fa;
+    border-radius: 16px;
+    padding: 20px;
+    margin-bottom: 18px;
+    border: 1px solid #e9ecef;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+}
+
+.card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #6c5ce7, #00b894);
+}
+
+.card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(108, 92, 231, 0.15);
+}
+
+/* ============================================
+   CARD DO CLIMA (VERDE E ROXO)
    ============================================ */
 
 .clima-card {
-    background: linear-gradient(135deg, #00b894 0%, #00cec9 100%);
+    background: linear-gradient(135deg, #6c5ce7 0%, #00b894 100%);
     border: none;
     text-align: center;
+    padding: 20px;
+}
+
+.clima-card::before {
+    display: none;
 }
 
 .btn-clima {
     width: 100%;
-    padding: 15px;
+    padding: 14px;
     background: white;
-    color: #00b894;
+    color: #6c5ce7;
     border: none;
     border-radius: 50px;
-    font-size: 18px;
-    font-weight: bold;
+    font-size: 16px;
+    font-weight: 700;
     cursor: pointer;
     transition: all 0.3s;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
 .btn-clima:hover {
-    transform: scale(1.02);
-    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+    transform: scale(1.03);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
 }
 
 .btn-clima:disabled {
@@ -34,9 +238,11 @@
 
 .status-clima {
     color: white;
-    margin-top: 10px;
-    font-size: 0.95em;
-    min-height: 25px;
+    margin-top: 12px;
+    font-size: 0.9em;
+    min-height: 20px;
+    line-height: 1.4;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
 }
 
 .status-clima.carregando {
@@ -44,37 +250,242 @@
 }
 
 @keyframes pulse {
-    0% { opacity: 1; }
+    0%, 100% { opacity: 1; }
     50% { opacity: 0.5; }
-    100% { opacity: 1; }
 }
 
-.clima-info {
-    background: rgba(255, 255, 255, 0.2);
-    border-radius: 10px;
-    padding: 10px;
-    margin-top: 10px;
-    color: white;
-    display: none;
-}
+/* ============================================
+   INPUTS E SELECTS
+   ============================================ */
 
-.clima-info.mostrar {
-    display: block;
-}
-
-.clima-info .cidade {
-    font-size: 1.2em;
-    font-weight: bold;
-}
-
-.clima-info .temp {
-    font-size: 1.5em;
-}
-
-.clima-info .detalhes {
+.input-group {
     display: flex;
-    justify-content: center;
-    gap: 20px;
-    font-size: 0.9em;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 12px;
+}
+
+.input-group input,
+.input-group select {
+    padding: 12px 15px;
+    border: 2px solid #e9ecef;
+    border-radius: 12px;
+    font-size: 16px;
+    width: 100%;
+    transition: all 0.3s;
+    background: white;
+    color: #2d3436;
+}
+
+.input-group input:focus,
+.input-group select:focus {
+    border-color: #6c5ce7;
+    outline: none;
+    box-shadow: 0 0 0 4px rgba(108, 92, 231, 0.15);
+}
+
+.arrow {
+    text-align: center;
+    font-size: 1.3em;
+    color: #6c5ce7;
+    margin: 5px 0 10px 0;
+}
+
+/* ============================================
+   BOTÃO CONVERTER
+   ============================================ */
+
+button[onclick="converter()"] {
+    width: 100%;
+    padding: 14px;
+    background: linear-gradient(135deg, #6c5ce7 0%, #00b894 100%);
+    color: white;
+    border: none;
+    border-radius: 50px;
+    font-size: 17px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s;
     margin-top: 5px;
+    box-shadow: 0 4px 15px rgba(108, 92, 231, 0.3);
+}
+
+button[onclick="converter()"]:hover {
+    transform: scale(1.02);
+    box-shadow: 0 8px 30px rgba(108, 92, 231, 0.4);
+}
+
+/* ============================================
+   RESULTADO
+   ============================================ */
+
+.resultado {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    padding: 16px;
+    border-radius: 12px;
+    margin-top: 15px;
+    font-size: 1.1em;
+    font-weight: 700;
+    text-align: center;
+    color: #2d3436;
+    border: 2px solid #6c5ce7;
+    min-height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s;
+}
+
+/* ============================================
+   TABELA DE REFERÊNCIA
+   ============================================ */
+
+.referencias {
+    overflow-x: auto;
+    padding: 15px;
+}
+
+.referencias table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85em;
+}
+
+.referencias th,
+.referencias td {
+    padding: 10px 8px;
+    text-align: center;
+    border: 1px solid #dee2e6;
+}
+
+.referencias th {
+    background: linear-gradient(135deg, #6c5ce7 0%, #00b894 100%);
+    color: white;
+    font-weight: 700;
+}
+
+.referencias tr:nth-child(even) {
+    background: #f1f3f5;
+}
+
+.referencias tr:hover {
+    background: rgba(108, 92, 231, 0.08);
+}
+
+/* ============================================
+   RESPONSIVIDADE - CELULAR
+   ============================================ */
+
+@media (max-width: 600px) {
+    body {
+        padding: 10px;
+    }
+    
+    .container {
+        padding: 20px 15px;
+        border-radius: 20px;
+    }
+    
+    h1 {
+        font-size: 1.5em;
+    }
+    
+    h2 {
+        font-size: 0.95em;
+    }
+    
+    .card {
+        padding: 15px;
+    }
+    
+    .input-group input,
+    .input-group select {
+        font-size: 15px;
+        padding: 12px;
+    }
+    
+    .btn-clima {
+        font-size: 15px;
+        padding: 13px;
+    }
+    
+    button[onclick="converter()"] {
+        font-size: 15px;
+        padding: 13px;
+    }
+    
+    .resultado {
+        font-size: 1em;
+        padding: 14px;
+        min-height: 45px;
+    }
+    
+    .referencias table {
+        font-size: 0.75em;
+    }
+    
+    .referencias th,
+    .referencias td {
+        padding: 8px 5px;
+    }
+    
+    .status-clima {
+        font-size: 0.8em;
+    }
+    
+    /* Ajustar figuras para celular */
+    .quadrado,
+    .circulo-pequeno,
+    .quadrado-pequeno {
+        display: none;
+    }
+    
+    .triangulo {
+        border-left-width: 20px;
+        border-right-width: 20px;
+        border-bottom-width: 35px;
+    }
+}
+
+/* ============================================
+   TELAS MUITO PEQUENAS
+   ============================================ */
+
+@media (max-width: 400px) {
+    .container {
+        padding: 15px 10px;
+    }
+    
+    h1 {
+        font-size: 1.2em;
+    }
+    
+    .card {
+        padding: 12px;
+    }
+    
+    .input-group input,
+    .input-group select {
+        font-size: 14px;
+        padding: 10px;
+    }
+    
+    .btn-clima {
+        font-size: 13px;
+        padding: 11px;
+    }
+    
+    button[onclick="converter()"] {
+        font-size: 13px;
+        padding: 11px;
+    }
+    
+    .referencias table {
+        font-size: 0.65em;
+    }
+    
+    .referencias th,
+    .referencias td {
+        padding: 5px 3px;
+    }
 }
