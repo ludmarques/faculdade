@@ -1,0 +1,238 @@
+// ============================================
+// CONFIGURAÇÃO DA API
+// ============================================
+
+const API_KEY = '158f29137995727cdcae10f700272c5d'; 
+
+// ============================================
+// VARIÁVEIS GLOBAIS
+// ============================================
+
+let temperaturaAtual = null;
+let unidadeAtual = 'celsius';
+
+// ============================================
+// FUNÇÃO PRINCIPAL - BUSCAR CLIMA
+// ============================================
+
+function buscarClimaAtual() {
+    const botao = document.querySelector('.btn-localizacao');
+    const status = document.getElementById('status');
+    
+    // Verifica se o navegador suporta geolocalização
+    if (!navigator.geolocation) {
+        mostrarErro('Seu navegador não suporta geolocalização.');
+        return;
+    }
+    
+    // Desabilita o botão durante a busca
+    botao.disabled = true;
+    botao.textContent = '⏳ Buscando localização...';
+    status.textContent = '⏳ Obtendo sua localização...';
+    status.className = 'status carregando';
+    
+    // Pega a localização do usuário
+    navigator.geolocation.getCurrentPosition(
+        // Sucesso - pegou a localização
+        function(posicao) {
+            const lat = posicao.coords.latitude;
+            const lon = posicao.coords.longitude;
+            status.textContent = `📍 Localização encontrada! Buscando clima...`;
+            buscarClimaPorCoordenadas(lat, lon);
+        },
+        // Erro - não pegou a localização
+        function(erro) {
+            botao.disabled = false;
+            botao.textContent = '📍 Usar Minha Localização';
+            status.className = 'status';
+            
+            let mensagem = '';
+            switch(erro.code) {
+                case erro.PERMISSION_DENIED:
+                    mensagem = '❌ Você negou o acesso à localização. Permita no navegador.';
+                    break;
+                case erro.POSITION_UNAVAILABLE:
+                    mensagem = '❌ Não foi possível obter a localização. Tente novamente.';
+                    break;
+                case erro.TIMEOUT:
+                    mensagem = '⏰ Tempo esgotado. Tente novamente.';
+                    break;
+                default:
+                    mensagem = '❌ Erro ao obter localização.';
+            }
+            mostrarErro(mensagem);
+        }
+    );
+}
+
+// ============================================
+// BUSCAR CLIMA POR COORDENADAS
+// ============================================
+
+function buscarClimaPorCoordenadas(lat, lon) {
+    const status = document.getElementById('status');
+    const botao = document.querySelector('.btn-localizacao');
+    
+    // URL da API OpenWeatherMap
+    const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric&lang=pt_br`;
+    
+    // Faz a requisição
+    fetch(url)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Erro na requisição: ' + response.status);
+            }
+            return response.json();
+        })
+        .then(dados => {
+            // Guarda os dados
+            temperaturaAtual = dados.main.temp;
+            
+            // Mostra na tela
+            mostrarClima(dados);
+            
+            // Atualiza status
+            status.textContent = '✅ Clima atualizado!';
+            status.className = 'status';
+            botao.disabled = false;
+            botao.textContent = '📍 Atualizar Localização';
+            
+            // Esconde erro se estiver visível
+            document.getElementById('erro').style.display = 'none';
+        })
+        .catch(erro => {
+            botao.disabled = false;
+            botao.textContent = '📍 Usar Minha Localização';
+            status.className = 'status';
+            mostrarErro('❌ Erro ao buscar clima: ' + erro.message);
+        });
+}
+
+// ============================================
+// MOSTRAR CLIMA NA TELA
+// ============================================
+
+function mostrarClima(dados) {
+    // Pega os dados da API
+    const cidade = dados.name;
+    const pais = dados.sys.country;
+    const temperatura = Math.round(dados.main.temp);
+    const descricao = dados.weather[0].description;
+    const icone = dados.weather[0].icon;
+    const umidade = dados.main.humidity;
+    const vento = Math.round(dados.wind.speed * 3.6); // Converte m/s para km/h
+    
+    // Converte o código do ícone para emoji
+    const emojiIcone = converterIconeParaEmoji(icone);
+    
+    // Atualiza a interface
+    document.getElementById('iconeTempo').textContent = emojiIcone;
+    document.getElementById('nomeCidade').textContent = `${cidade}, ${pais}`;
+    document.getElementById('temperaturaAtual').textContent = `${temperatura}°C`;
+    document.getElementById('descricaoClima').textContent = descricao;
+    document.getElementById('umidade').textContent = umidade;
+    document.getElementById('vento').textContent = vento;
+    
+    // Mostra a seção de resultado
+    document.getElementById('resultadoClima').style.display = 'block';
+    
+    // Atualiza fundo conforme o clima
+    atualizarFundo(icone);
+}
+
+// ============================================
+// FUNÇÃO DE CONVERSÃO (IGUAL A DA CALCULADORA)
+// ============================================
+
+function converterTemperatura(unidade) {
+    if (temperaturaAtual === null) {
+        alert('Primeiro busque o clima da sua localização!');
+        return;
+    }
+    
+    unidadeAtual = unidade;
+    let valorConvertido = 0;
+    let simbolo = '';
+    
+    switch(unidade) {
+        case 'celsius':
+            valorConvertido = temperaturaAtual;
+            simbolo = '°C';
+            break;
+        case 'fahrenheit':
+            valorConvertido = (temperaturaAtual * 9/5) + 32;
+            simbolo = '°F';
+            break;
+        case 'kelvin':
+            valorConvertido = temperaturaAtual + 273.15;
+            simbolo = 'K';
+            break;
+    }
+    
+    valorConvertido = Math.round(valorConvertido * 10) / 10;
+    document.getElementById('temperaturaAtual').textContent = `${valorConvertido}${simbolo}`;
+}
+
+// ============================================
+// CONVERTER ÍCONE DA API PARA EMOJI
+// ============================================
+
+function converterIconeParaEmoji(icone) {
+    const map = {
+        '01d': '☀️', '01n': '🌙',
+        '02d': '⛅', '02n': '☁️',
+        '03d': '☁️', '03n': '☁️',
+        '04d': '☁️', '04n': '☁️',
+        '09d': '🌧️', '09n': '🌧️',
+        '10d': '🌦️', '10n': '🌧️',
+        '11d': '⛈️', '11n': '⛈️',
+        '13d': '❄️', '13n': '❄️',
+        '50d': '🌫️', '50n': '🌫️'
+    };
+    return map[icone] || '🌡️';
+}
+
+// ============================================
+// ATUALIZAR FUNDO CONFORME O CLIMA
+// ============================================
+
+function atualizarFundo(icone) {
+    const body = document.body;
+    
+    // Remove classes anteriores
+    body.className = '';
+    
+    // Adiciona classe conforme o clima
+    if (icone.includes('01')) {
+        body.style.background = 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)';
+    } else if (icone.includes('02') || icone.includes('03') || icone.includes('04')) {
+        body.style.background = 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)';
+    } else if (icone.includes('09') || icone.includes('10')) {
+        body.style.background = 'linear-gradient(135deg, #2c3e50 0%, #3498db 100%)';
+    } else if (icone.includes('11')) {
+        body.style.background = 'linear-gradient(135deg, #141e30 0%, #243b55 100%)';
+    } else if (icone.includes('13')) {
+        body.style.background = 'linear-gradient(135deg, #e6dada 0%, #274046 100%)';
+    } else {
+        body.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
+    }
+}
+
+// ============================================
+// FUNÇÕES AUXILIARES
+// ============================================
+
+function mostrarErro(mensagem) {
+    document.getElementById('erro').style.display = 'block';
+    document.getElementById('mensagemErro').textContent = mensagem;
+    document.getElementById('resultadoClima').style.display = 'none';
+}
+
+// ============================================
+// EXECUTAR QUANDO A PÁGINA CARREGAR
+// ============================================
+
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('🌤️ App de Clima carregado!');
+    console.log('Clique em "Usar Minha Localização" para começar!');
+});

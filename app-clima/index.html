@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clima Agora</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>🌤️ Clima Agora</h1>
+        
+        <!-- Seção de Localização -->
+        <div class="card">
+            <button onclick="buscarClimaAtual()" class="btn-localizacao">
+                📍 Usar Minha Localização
+            </button>
+            <div id="status" class="status">Clique no botão para buscar o clima</div>
+        </div>
+
+        <!-- Seção de Resultado -->
+        <div class="card resultado-clima" id="resultadoClima" style="display: none;">
+            <div class="icone-tempo" id="iconeTempo">☀️</div>
+            <div class="cidade" id="nomeCidade">Cidade</div>
+            <div class="temperatura" id="temperaturaAtual">--°C</div>
+            <div class="descricao" id="descricaoClima">--</div>
+            
+            <!-- Conversões -->
+            <div class="conversoes">
+                <button onclick="converterTemperatura('celsius')">°C</button>
+                <button onclick="converterTemperatura('fahrenheit')">°F</button>
+                <button onclick="converterTemperatura('kelvin')">K</button>
+            </div>
+            <div class="detalhes">
+                <span>💧 Umidade: <span id="umidade">--</span>%</span>
+                <span>💨 Vento: <span id="vento">--</span> km/h</span>
+            </div>
+        </div>
+
+        <!-- Seção de Erro -->
+        <div id="erro" class="erro" style="display: none;">
+            ⚠️ <span id="mensagemErro">Erro ao buscar clima</span>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
