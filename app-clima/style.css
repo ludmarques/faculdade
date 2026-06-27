@@ -1,238 +1,455 @@
-// ============================================
-// CONFIGURAÇÃO DA API
-// ============================================
+/* ============================================
+   CSS - ROTA CARREIRA (VERDE E ROXO)
+   ============================================ */
 
-const API_KEY = '158f29137995727cdcae10f700272c5d'; 
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
-// ============================================
-// VARIÁVEIS GLOBAIS
-// ============================================
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+    position: relative;
+}
 
-let temperaturaAtual = null;
-let unidadeAtual = 'celsius';
+/* ===== FIGURAS DE FUNDO ===== */
+body::before {
+    content: '';
+    position: fixed;
+    top: -150px;
+    right: -150px;
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, rgba(155, 89, 182, 0.3) 0%, transparent 70%);
+    border-radius: 50%;
+    z-index: 0;
+    animation: flutuar 8s ease-in-out infinite;
+}
 
-// ============================================
-// FUNÇÃO PRINCIPAL - BUSCAR CLIMA
-// ============================================
+body::after {
+    content: '';
+    position: fixed;
+    bottom: -100px;
+    left: -100px;
+    width: 350px;
+    height: 350px;
+    background: radial-gradient(circle, rgba(46, 204, 113, 0.25) 0%, transparent 70%);
+    border-radius: 50%;
+    z-index: 0;
+    animation: flutuar2 10s ease-in-out infinite;
+}
 
-function buscarClimaAtual() {
-    const botao = document.querySelector('.btn-localizacao');
-    const status = document.getElementById('status');
-    
-    // Verifica se o navegador suporta geolocalização
-    if (!navigator.geolocation) {
-        mostrarErro('Seu navegador não suporta geolocalização.');
-        return;
+@keyframes flutuar {
+    0%, 100% { transform: translateY(0px) scale(1); }
+    50% { transform: translateY(-30px) scale(1.05); }
+}
+
+@keyframes flutuar2 {
+    0%, 100% { transform: translateY(0px) scale(1); }
+    50% { transform: translateY(30px) scale(1.1); }
+}
+
+/* ===== CONTAINER ===== */
+.container {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 30px;
+    padding: 35px 30px;
+    max-width: 450px;
+    width: 100%;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+    position: relative;
+    z-index: 1;
+    min-height: 600px;
+}
+
+/* ===== TELAS ===== */
+.tela {
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== TELA 1: BOAS-VINDAS ===== */
+.logo {
+    font-size: 4em;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+h1 {
+    text-align: center;
+    font-size: 2em;
+    font-weight: 800;
+    background: linear-gradient(135deg, #6c5ce7 0%, #00b894 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 10px;
+}
+
+.subtitulo {
+    text-align: center;
+    font-size: 1.3em;
+    font-weight: 600;
+    color: #2d3436;
+    margin-bottom: 10px;
+}
+
+.descricao {
+    text-align: center;
+    color: #636e72;
+    font-size: 0.95em;
+    margin-bottom: 30px;
+    line-height: 1.5;
+}
+
+/* ===== BOTÕES ===== */
+.btn-principal {
+    width: 100%;
+    padding: 14px;
+    background: linear-gradient(135deg, #6c5ce7 0%, #00b894 100%);
+    color: white;
+    border: none;
+    border-radius: 50px;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s;
+    margin-bottom: 12px;
+    box-shadow: 0 4px 15px rgba(108, 92, 231, 0.3);
+}
+
+.btn-principal:hover {
+    transform: scale(1.02);
+    box-shadow: 0 8px 30px rgba(108, 92, 231, 0.4);
+}
+
+.btn-principal:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.btn-secundario {
+    width: 100%;
+    padding: 14px;
+    background: transparent;
+    color: #6c5ce7;
+    border: 2px solid #6c5ce7;
+    border-radius: 50px;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.btn-secundario:hover {
+    background: #6c5ce7;
+    color: white;
+}
+
+.btn-concluir {
+    width: 100%;
+    padding: 14px;
+    background: linear-gradient(135deg, #00b894 0%, #00cec9 100%);
+    color: white;
+    border: none;
+    border-radius: 50px;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s;
+    margin: 20px 0;
+}
+
+.btn-concluir:hover {
+    transform: scale(1.02);
+    box-shadow: 0 8px 30px rgba(0, 184, 148, 0.4);
+}
+
+.btn-concluir.concluido {
+    background: #dfe6e9;
+    color: #636e72;
+    cursor: default;
+}
+
+/* ===== PROGRESSO ===== */
+.progresso {
+    margin-bottom: 25px;
+}
+
+.passo {
+    font-size: 0.9em;
+    color: #636e72;
+    display: block;
+    margin-bottom: 8px;
+}
+
+.barra-progresso {
+    width: 100%;
+    height: 6px;
+    background: #dfe6e9;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.progresso-preenchido {
+    height: 100%;
+    background: linear-gradient(90deg, #6c5ce7, #00b894);
+    border-radius: 10px;
+    transition: width 0.5s;
+}
+
+/* ===== OPÇÕES DO QUESTIONÁRIO ===== */
+h2 {
+    color: #2d3436;
+    font-size: 1.3em;
+    margin-bottom: 20px;
+}
+
+.opcoes {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 25px;
+}
+
+.opcao {
+    background: #f8f9fa;
+    border: 2px solid #e9ecef;
+    border-radius: 16px;
+    padding: 16px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.opcao:hover {
+    border-color: #6c5ce7;
+    transform: translateX(5px);
+}
+
+.opcao.selecionado {
+    border-color: #6c5ce7;
+    background: rgba(108, 92, 231, 0.08);
+    box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.15);
+}
+
+.icone-opcao {
+    font-size: 1.5em;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.opcao h3 {
+    color: #2d3436;
+    font-size: 1em;
+}
+
+.opcao p {
+    color: #636e72;
+    font-size: 0.85em;
+    margin-top: 3px;
+}
+
+/* ===== PLANO DE ESTUDOS ===== */
+.cabecalho-plano {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.emoji-plano {
+    font-size: 2.5em;
+    display: block;
+}
+
+.cabecalho-plano h2 {
+    margin-bottom: 5px;
+}
+
+.cabecalho-plano p {
+    color: #636e72;
+    font-size: 0.95em;
+}
+
+.lista-aulas {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 25px;
+}
+
+.aula-item {
+    background: #f8f9fa;
+    border-radius: 12px;
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-left: 4px solid #6c5ce7;
+    transition: all 0.3s;
+}
+
+.aula-item:hover {
+    transform: translateX(5px);
+}
+
+.aula-item .info {
+    flex: 1;
+}
+
+.aula-item .info strong {
+    display: block;
+    color: #2d3436;
+}
+
+.aula-item .info span {
+    font-size: 0.85em;
+    color: #636e72;
+}
+
+.aula-item .dia {
+    color: #6c5ce7;
+    font-weight: 700;
+    font-size: 0.85em;
+}
+
+/* ===== CHECKPOINT DIÁRIO ===== */
+.aula-atual {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border-radius: 16px;
+    padding: 25px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.aula-atual .icone-aula {
+    font-size: 3em;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.aula-atual .titulo-aula {
+    font-size: 1.2em;
+    font-weight: 700;
+    color: #2d3436;
+}
+
+.aula-atual .descricao-aula {
+    color: #636e72;
+    font-size: 0.9em;
+    margin: 5px 0;
+}
+
+.aula-atual .tempo-aula {
+    color: #6c5ce7;
+    font-weight: 600;
+}
+
+/* ===== NAVEGAÇÃO INFERIOR ===== */
+.nav-inferior {
+    display: flex;
+    justify-content: space-around;
+    padding-top: 15px;
+    border-top: 1px solid #e9ecef;
+    margin-bottom: 15px;
+}
+
+.nav-item {
+    text-align: center;
+    cursor: pointer;
+    padding: 5px 15px;
+    border-radius: 10px;
+    transition: all 0.3s;
+    opacity: 0.5;
+}
+
+.nav-item:hover {
+    opacity: 0.8;
+}
+
+.nav-item.ativo {
+    opacity: 1;
+    color: #6c5ce7;
+}
+
+.nav-item span {
+    display: block;
+    font-size: 0.75em;
+}
+
+.nav-item span:first-child {
+    font-size: 1.2em;
+}
+
+/* ===== PROGRESSO SEMANAL ===== */
+.progresso-semanal {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+.dia-semana {
+    text-align: center;
+    padding: 8px;
+    border-radius: 10px;
+    background: #f8f9fa;
+    flex: 1;
+    margin: 0 3px;
+}
+
+.dia-semana .dia-nome {
+    font-size: 0.7em;
+    color: #636e72;
+}
+
+.dia-semana .dia-status {
+    font-size: 0.9em;
+    margin-top: 5px;
+}
+
+.dia-semana.concluido {
+    background: rgba(0, 184, 148, 0.15);
+}
+
+.dia-semana .dia-status.concluido {
+    color: #00b894;
+}
+
+/* ===== RESPONSIVO ===== */
+@media (max-width: 500px) {
+    .container {
+        padding: 25px 20px;
+        min-height: 550px;
+        border-radius: 20px;
     }
     
-    // Desabilita o botão durante a busca
-    botao.disabled = true;
-    botao.textContent = '⏳ Buscando localização...';
-    status.textContent = '⏳ Obtendo sua localização...';
-    status.className = 'status carregando';
-    
-    // Pega a localização do usuário
-    navigator.geolocation.getCurrentPosition(
-        // Sucesso - pegou a localização
-        function(posicao) {
-            const lat = posicao.coords.latitude;
-            const lon = posicao.coords.longitude;
-            status.textContent = `📍 Localização encontrada! Buscando clima...`;
-            buscarClimaPorCoordenadas(lat, lon);
-        },
-        // Erro - não pegou a localização
-        function(erro) {
-            botao.disabled = false;
-            botao.textContent = '📍 Usar Minha Localização';
-            status.className = 'status';
-            
-            let mensagem = '';
-            switch(erro.code) {
-                case erro.PERMISSION_DENIED:
-                    mensagem = '❌ Você negou o acesso à localização. Permita no navegador.';
-                    break;
-                case erro.POSITION_UNAVAILABLE:
-                    mensagem = '❌ Não foi possível obter a localização. Tente novamente.';
-                    break;
-                case erro.TIMEOUT:
-                    mensagem = '⏰ Tempo esgotado. Tente novamente.';
-                    break;
-                default:
-                    mensagem = '❌ Erro ao obter localização.';
-            }
-            mostrarErro(mensagem);
-        }
-    );
-}
-
-// ============================================
-// BUSCAR CLIMA POR COORDENADAS
-// ============================================
-
-function buscarClimaPorCoordenadas(lat, lon) {
-    const status = document.getElementById('status');
-    const botao = document.querySelector('.btn-localizacao');
-    
-    // URL da API OpenWeatherMap
-    const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric&lang=pt_br`;
-    
-    // Faz a requisição
-    fetch(url)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Erro na requisição: ' + response.status);
-            }
-            return response.json();
-        })
-        .then(dados => {
-            // Guarda os dados
-            temperaturaAtual = dados.main.temp;
-            
-            // Mostra na tela
-            mostrarClima(dados);
-            
-            // Atualiza status
-            status.textContent = '✅ Clima atualizado!';
-            status.className = 'status';
-            botao.disabled = false;
-            botao.textContent = '📍 Atualizar Localização';
-            
-            // Esconde erro se estiver visível
-            document.getElementById('erro').style.display = 'none';
-        })
-        .catch(erro => {
-            botao.disabled = false;
-            botao.textContent = '📍 Usar Minha Localização';
-            status.className = 'status';
-            mostrarErro('❌ Erro ao buscar clima: ' + erro.message);
-        });
-}
-
-// ============================================
-// MOSTRAR CLIMA NA TELA
-// ============================================
-
-function mostrarClima(dados) {
-    // Pega os dados da API
-    const cidade = dados.name;
-    const pais = dados.sys.country;
-    const temperatura = Math.round(dados.main.temp);
-    const descricao = dados.weather[0].description;
-    const icone = dados.weather[0].icon;
-    const umidade = dados.main.humidity;
-    const vento = Math.round(dados.wind.speed * 3.6); // Converte m/s para km/h
-    
-    // Converte o código do ícone para emoji
-    const emojiIcone = converterIconeParaEmoji(icone);
-    
-    // Atualiza a interface
-    document.getElementById('iconeTempo').textContent = emojiIcone;
-    document.getElementById('nomeCidade').textContent = `${cidade}, ${pais}`;
-    document.getElementById('temperaturaAtual').textContent = `${temperatura}°C`;
-    document.getElementById('descricaoClima').textContent = descricao;
-    document.getElementById('umidade').textContent = umidade;
-    document.getElementById('vento').textContent = vento;
-    
-    // Mostra a seção de resultado
-    document.getElementById('resultadoClima').style.display = 'block';
-    
-    // Atualiza fundo conforme o clima
-    atualizarFundo(icone);
-}
-
-// ============================================
-// FUNÇÃO DE CONVERSÃO (IGUAL A DA CALCULADORA)
-// ============================================
-
-function converterTemperatura(unidade) {
-    if (temperaturaAtual === null) {
-        alert('Primeiro busque o clima da sua localização!');
-        return;
+    h1 {
+        font-size: 1.6em;
     }
     
-    unidadeAtual = unidade;
-    let valorConvertido = 0;
-    let simbolo = '';
-    
-    switch(unidade) {
-        case 'celsius':
-            valorConvertido = temperaturaAtual;
-            simbolo = '°C';
-            break;
-        case 'fahrenheit':
-            valorConvertido = (temperaturaAtual * 9/5) + 32;
-            simbolo = '°F';
-            break;
-        case 'kelvin':
-            valorConvertido = temperaturaAtual + 273.15;
-            simbolo = 'K';
-            break;
+    .logo {
+        font-size: 3em;
     }
     
-    valorConvertido = Math.round(valorConvertido * 10) / 10;
-    document.getElementById('temperaturaAtual').textContent = `${valorConvertido}${simbolo}`;
-}
-
-// ============================================
-// CONVERTER ÍCONE DA API PARA EMOJI
-// ============================================
-
-function converterIconeParaEmoji(icone) {
-    const map = {
-        '01d': '☀️', '01n': '🌙',
-        '02d': '⛅', '02n': '☁️',
-        '03d': '☁️', '03n': '☁️',
-        '04d': '☁️', '04n': '☁️',
-        '09d': '🌧️', '09n': '🌧️',
-        '10d': '🌦️', '10n': '🌧️',
-        '11d': '⛈️', '11n': '⛈️',
-        '13d': '❄️', '13n': '❄️',
-        '50d': '🌫️', '50n': '🌫️'
-    };
-    return map[icone] || '🌡️';
-}
-
-// ============================================
-// ATUALIZAR FUNDO CONFORME O CLIMA
-// ============================================
-
-function atualizarFundo(icone) {
-    const body = document.body;
+    .opcao {
+        padding: 14px;
+    }
     
-    // Remove classes anteriores
-    body.className = '';
+    .nav-item {
+        padding: 5px 10px;
+    }
     
-    // Adiciona classe conforme o clima
-    if (icone.includes('01')) {
-        body.style.background = 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)';
-    } else if (icone.includes('02') || icone.includes('03') || icone.includes('04')) {
-        body.style.background = 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)';
-    } else if (icone.includes('09') || icone.includes('10')) {
-        body.style.background = 'linear-gradient(135deg, #2c3e50 0%, #3498db 100%)';
-    } else if (icone.includes('11')) {
-        body.style.background = 'linear-gradient(135deg, #141e30 0%, #243b55 100%)';
-    } else if (icone.includes('13')) {
-        body.style.background = 'linear-gradient(135deg, #e6dada 0%, #274046 100%)';
-    } else {
-        body.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
+    .aula-item {
+        padding: 12px;
     }
 }
-
-// ============================================
-// FUNÇÕES AUXILIARES
-// ============================================
-
-function mostrarErro(mensagem) {
-    document.getElementById('erro').style.display = 'block';
-    document.getElementById('mensagemErro').textContent = mensagem;
-    document.getElementById('resultadoClima').style.display = 'none';
-}
-
-// ============================================
-// EXECUTAR QUANDO A PÁGINA CARREGAR
-// ============================================
-
-document.addEventListener('DOMContentLoaded', function() {
-    console.log('🌤️ App de Clima carregado!');
-    console.log('Clique em "Usar Minha Localização" para começar!');
-});

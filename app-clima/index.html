@@ -3,43 +3,157 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Clima Agora</title>
+    <title>Rota Carreira - Plano de Estudos</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
-        <h1>🌤️ Clima Agora</h1>
-        
-        <!-- Seção de Localização -->
-        <div class="card">
-            <button onclick="buscarClimaAtual()" class="btn-localizacao">
-                📍 Usar Minha Localização
-            </button>
-            <div id="status" class="status">Clique no botão para buscar o clima</div>
-        </div>
-
-        <!-- Seção de Resultado -->
-        <div class="card resultado-clima" id="resultadoClima" style="display: none;">
-            <div class="icone-tempo" id="iconeTempo">☀️</div>
-            <div class="cidade" id="nomeCidade">Cidade</div>
-            <div class="temperatura" id="temperaturaAtual">--°C</div>
-            <div class="descricao" id="descricaoClima">--</div>
+        <!-- ==========================================
+        TELA 1: BOAS-VINDAS
+        ========================================== -->
+        <div id="telaBoasVindas" class="tela">
+            <div class="logo">🚀</div>
+            <h1>Rota Carreira</h1>
+            <p class="subtitulo">Vamos começar sua jornada?</p>
+            <p class="descricao">Responda perguntas rápidas e receba um plano de estudos personalizado para sua área.</p>
             
-            <!-- Conversões -->
-            <div class="conversoes">
-                <button onclick="converterTemperatura('celsius')">°C</button>
-                <button onclick="converterTemperatura('fahrenheit')">°F</button>
-                <button onclick="converterTemperatura('kelvin')">K</button>
-            </div>
-            <div class="detalhes">
-                <span>💧 Umidade: <span id="umidade">--</span>%</span>
-                <span>💨 Vento: <span id="vento">--</span> km/h</span>
-            </div>
+            <button onclick="mostrarTela('telaQuestionario')" class="btn-principal">
+                Responder perguntas rápidas
+            </button>
+            
+            <button onclick="alert('Função em desenvolvimento!')" class="btn-secundario">
+                Já tenho conta
+            </button>
         </div>
 
-        <!-- Seção de Erro -->
-        <div id="erro" class="erro" style="display: none;">
-            ⚠️ <span id="mensagemErro">Erro ao buscar clima</span>
+        <!-- ==========================================
+        TELA 2: QUESTIONÁRIO - PERGUNTA 1
+        ========================================== -->
+        <div id="telaQuestionario" class="tela" style="display: none;">
+            <div class="progresso">
+                <span class="passo">1 de 3</span>
+                <div class="barra-progresso">
+                    <div class="progresso-preenchido" style="width: 33%;"></div>
+                </div>
+            </div>
+
+            <h2>Qual área você quer seguir?</h2>
+            
+            <div class="opcoes">
+                <div class="opcao" onclick="selecionarOpcao(this, 'frontend')">
+                    <span class="icone-opcao">🎨</span>
+                    <h3>Front-end</h3>
+                    <p>Interface, design, experiência do usuário</p>
+                </div>
+                
+                <div class="opcao" onclick="selecionarOpcao(this, 'backend')">
+                    <span class="icone-opcao">⚙️</span>
+                    <h3>Back-end</h3>
+                    <p>Servidores, bancos de dados, lógica</p>
+                </div>
+                
+                <div class="opcao" onclick="selecionarOpcao(this, 'dados')">
+                    <span class="icone-opcao">📊</span>
+                    <h3>Dados</h3>
+                    <p>Análise, machine learning, estatística</p>
+                </div>
+            </div>
+
+            <button onclick="proximoPasso()" class="btn-principal" id="btnProximo1" disabled>
+                Próximo →
+            </button>
+        </div>
+
+        <!-- ==========================================
+        TELA 3: QUESTIONÁRIO - PERGUNTA 2
+        ========================================== -->
+        <div id="telaQuestionario2" class="tela" style="display: none;">
+            <div class="progresso">
+                <span class="passo">2 de 3</span>
+                <div class="barra-progresso">
+                    <div class="progresso-preenchido" style="width: 66%;"></div>
+                </div>
+            </div>
+
+            <h2>Quanto tempo você tem por dia para estudar?</h2>
+            
+            <div class="opcoes">
+                <div class="opcao" onclick="selecionarOpcao(this, '30min')">
+                    <span class="icone-opcao">⏱️</span>
+                    <h3>Até 30 min</h3>
+                    <p>Rotina corrida, mas consistente</p>
+                </div>
+                
+                <div class="opcao" onclick="selecionarOpcao(this, '1h')">
+                    <span class="icone-opcao">⌛</span>
+                    <h3>Até 1 hora</h3>
+                    <p>Dedicado, com foco total</p>
+                </div>
+                
+                <div class="opcao" onclick="selecionarOpcao(this, 'mais')">
+                    <span class="icone-opcao">🔥</span>
+                    <h3>Mais de 1 hora</h3>
+                    <p>Mergulho profundo nos estudos</p>
+                </div>
+            </div>
+
+            <button onclick="proximoPasso2()" class="btn-principal" id="btnProximo2" disabled>
+                Próximo →
+            </button>
+        </div>
+
+        <!-- ==========================================
+        TELA 4: PLANO DE ESTUDOS GERADO
+        ========================================== -->
+        <div id="telaPlano" class="tela" style="display: none;">
+            <div class="cabecalho-plano">
+                <span class="emoji-plano">🎯</span>
+                <h2>Seu plano personalizado</h2>
+                <p id="descricaoPlano">Front-end - 30 min/dia</p>
+            </div>
+
+            <div class="lista-aulas" id="listaAulas">
+                <!-- Gerado pelo JavaScript -->
+            </div>
+
+            <button onclick="mostrarTela('telaCheckpoint')" class="btn-principal">
+                Começar primeira aula →
+            </button>
+        </div>
+
+        <!-- ==========================================
+        TELA 5: CHECKPOINT DIÁRIO
+        ========================================== -->
+        <div id="telaCheckpoint" class="tela" style="display: none;">
+            <h2>📚 Estudo de hoje</h2>
+            
+            <div class="aula-atual" id="aulaAtual">
+                <!-- Gerado pelo JavaScript -->
+            </div>
+
+            <button onclick="marcarConcluido()" class="btn-concluir" id="btnConcluir">
+                ✅ Marcar como concluído
+            </button>
+
+            <!-- Navegação inferior -->
+            <div class="nav-inferior">
+                <div class="nav-item ativo" onclick="mostrarTela('telaCheckpoint')">
+                    <span>🏠</span>
+                    <span>Casa</span>
+                </div>
+                <div class="nav-item" onclick="mostrarTela('telaPlano')">
+                    <span>📊</span>
+                    <span>Progresso</span>
+                </div>
+                <div class="nav-item" onclick="alert('Perfil em desenvolvimento!')">
+                    <span>👤</span>
+                    <span>Perfil</span>
+                </div>
+            </div>
+
+            <div class="progresso-semanal" id="progressoSemanal">
+                <!-- Gerado pelo JavaScript -->
+            </div>
         </div>
     </div>
 
