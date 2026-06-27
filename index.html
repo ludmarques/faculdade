@@ -3,13 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculadora de Temperatura</title>
+    <title>Calculadora de Temperatura + Clima</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
         <h1>🌡️ Calculadora de Temperatura</h1>
         
+        <!-- NOVO: Botão de Clima -->
+        <div class="card clima-card">
+            <button onclick="buscarClima()" class="btn-clima" id="btnClima">
+                🌤️ Buscar Clima da Minha Cidade
+            </button>
+            <div id="statusClima" class="status-clima"></div>
+        </div>
+
+        <!-- Calculadora original -->
         <div class="card">
             <h2>Digite a temperatura</h2>
             

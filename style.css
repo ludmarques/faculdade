@@ -1,158 +1,80 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+/* ============================================
+   NOVOS ESTILOS PARA O CLIMA
+   ============================================ */
 
-body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-}
-
-.container {
-    background: white;
-    border-radius: 20px;
-    padding: 40px;
-    max-width: 600px;
-    width: 100%;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-}
-
-h1 {
-    text-align: center;
-    color: #333;
-    margin-bottom: 30px;
-    font-size: 2.2em;
-}
-
-h2 {
-    color: #495057;
-    font-size: 1.2em;
-    margin-bottom: 15px;
-}
-
-.card {
-    background: #f8f9fa;
-    border-radius: 15px;
-    padding: 25px;
-    margin-bottom: 25px;
-    border: 1px solid #e9ecef;
-}
-
-.input-group {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 15px;
-    flex-wrap: wrap;
-}
-
-.input-group input,
-.input-group select {
-    padding: 12px 15px;
-    border: 2px solid #dee2e6;
-    border-radius: 8px;
-    font-size: 16px;
-    flex: 1;
-    min-width: 120px;
-    transition: all 0.3s;
-}
-
-.input-group input:focus,
-.input-group select:focus {
-    border-color: #667eea;
-    outline: none;
-    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
-}
-
-.arrow {
-    text-align: center;
-    font-size: 1.5em;
-    color: #6c757d;
-    margin: 10px 0;
-}
-
-button {
-    width: 100%;
-    padding: 14px;
+.clima-card {
+    background: linear-gradient(135deg, #00b894 0%, #00cec9 100%);
     border: none;
-    border-radius: 8px;
+    text-align: center;
+}
+
+.btn-clima {
+    width: 100%;
+    padding: 15px;
+    background: white;
+    color: #00b894;
+    border: none;
+    border-radius: 50px;
     font-size: 18px;
     font-weight: bold;
     cursor: pointer;
     transition: all 0.3s;
+}
+
+.btn-clima:hover {
+    transform: scale(1.02);
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+}
+
+.btn-clima:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.status-clima {
     color: white;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    margin: 10px 0;
+    margin-top: 10px;
+    font-size: 0.95em;
+    min-height: 25px;
 }
 
-button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+.status-clima.carregando {
+    animation: pulse 1s infinite;
 }
 
-button:active {
-    transform: translateY(0);
+@keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.5; }
+    100% { opacity: 1; }
 }
 
-.resultado {
-    background: white;
-    padding: 20px;
-    border-radius: 8px;
-    margin-top: 15px;
-    font-size: 1.3em;
-    font-weight: bold;
-    text-align: center;
-    color: #333;
-    border: 2px solid #dee2e6;
-    min-height: 60px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.referencias table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 0.9em;
-}
-
-.referencias th,
-.referencias td {
+.clima-info {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
     padding: 10px;
-    text-align: center;
-    border: 1px solid #dee2e6;
-}
-
-.referencias th {
-    background: #667eea;
+    margin-top: 10px;
     color: white;
+    display: none;
 }
 
-.referencias tr:nth-child(even) {
-    background: #f1f3f5;
+.clima-info.mostrar {
+    display: block;
 }
 
-@media (max-width: 600px) {
-    .container {
-        padding: 20px;
-    }
-    
-    .input-group {
-        flex-direction: column;
-    }
-    
-    .input-group input,
-    .input-group select {
-        width: 100%;
-        min-width: unset;
-    }
-    
-    h1 {
-        font-size: 1.8em;
-    }
+.clima-info .cidade {
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+.clima-info .temp {
+    font-size: 1.5em;
+}
+
+.clima-info .detalhes {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    font-size: 0.9em;
+    margin-top: 5px;
 }
